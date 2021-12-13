@@ -19,40 +19,26 @@ module App = {
   };
 
   module View = {
-    // open Gg;
+    open Virtual_dom.Vdom;
 
-    // let init =
-    //   empty
-    //   |> id("container")
-    //   |> push(
-    //        text("Hey there!!")
-    //        |> x(150)
-    //        |> y(125)
-    //        |> font_size(30)
-    //        |> fill("white"),
-    //      );
+    module Content = {
+      open Virtual_dom.Tyxml.Svg;
 
-    module Attr = Virtual_dom.Vdom.Attr;
-    module Node = Virtual_dom.Vdom.Node;
-    module SAttr = Virtual_dom_svg.Attr;
-    module SNode = Virtual_dom_svg.Node;
+      let msg =
+        text(
+          ~a=[
+            a_x_list([(150.0, None)]),
+            a_y_list([(125.0, None)]),
+            a_font_size("30"),
+            a_fill(`Color(("white", None))),
+          ],
+          [txt("hey ho")],
+        );
+    };
 
-    let font_size = (size: int): Attr.t =>
-      Attr.create("font-size", Int.to_string(size));
-    let init = {
-      SNode.svg(
-        [Attr.id("container")],
-        [
-          SNode.text(
-            SAttr.[
-              x(150.0),
-              y(125.0),
-              font_size(30),
-              fill(`Name("white")),
-            ],
-            [Node.text("Hello again!!")],
-          ),
-        ],
+    let init: Node.t = {
+      Virtual_dom.Tyxml.(
+        Html.(svg(~a=Svg.[a_id("container")], [Content.msg]) |> toelt)
       );
     };
   };
