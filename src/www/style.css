@@ -10,7 +10,7 @@ html, body {
   overflow: hidden;
 }
 
-#container {
+body>svg {
   width: 100%;
   height: 100%;
   color: white;
