@@ -5,10 +5,17 @@
  (deps
   (source_tree www)))
 
+(library
+ (name prelude)
+ (libraries virtual_dom)
+ (modules
+  (:standard \ Main))
+ (wrapped false))
+
 (executable
  (name main)
  (modules Main)
- (libraries bonsai.web)
+ (libraries prelude bonsai.web)
  (modes js)
  (js_of_ocaml
   (flags
