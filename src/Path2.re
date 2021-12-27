@@ -419,3 +419,15 @@ module Make = (C: CoordinateType) => {
     arc(~positioning=Relative, ~tail, arg);
   };
 };
+
+module IntPath =
+  Make({
+    type t = int;
+    let string_of_t = Int.to_string;
+  });
+
+module FloatPath =
+  Make({
+    type t = float;
+    let string_of_t = Float.to_string;
+  });

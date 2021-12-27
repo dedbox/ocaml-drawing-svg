@@ -136,18 +136,42 @@ let path_drawing =
 
 let path_api_drawing =
   Drawing.(
-    Path.(
-      [(100, 100), (200, 200), (100, 150)]
-      |> of_int_pairs
-      |> draw
-      |> stroke(black)
-      |> html_of_t
-    )
+    IntPath.([(100, 100), (200, 200), (100, 150)] |> of_pairs |> draw)
+    |> stroke(black)
+    |> html_of_t
   );
+
+let paths_drawing = {
+  Drawing.(
+    [
+      IntPath.([(50, 100), (150, 200), (50, 150)] |> of_pairs |> draw),
+      IntPath.([(100, 50), (200, 150), (100, 100)] |> of_pairs |> draw)
+      |> fill(none)
+      |> stroke(black),
+    ]
+    |> html_of_list
+  );
+};
+
+let quadratic_drawing = {
+  Drawing.(
+    [
+      IntPath.(
+        init((100, 200)) |> quadratic(((200, 400), (300, 200))) |> draw
+      )
+      |> fill(none)
+      |> stroke(blue),
+      IntPath.([(100, 200), (200, 400), (300, 200)] |> of_pairs |> draw)
+      |> fill(none)
+      |> stroke(red),
+    ]
+    |> html_of_list
+  );
+};
 
 let _: Start.Handle.t(_) =
   Start.start_standalone(
     ~initial_input=(),
     ~bind_to_element_with_id="container",
-    Bonsai.const(path_api_drawing),
+    Bonsai.const(quadratic_drawing),
   );
