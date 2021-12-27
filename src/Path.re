@@ -1,15 +1,13 @@
 module NE = NonEmptyList;
 
-type positioning =
-  | Absolute
-  | Relative;
-
 module type CoordinateType = {
   type t;
   let string_of_t: t => string;
 };
 
 module Make = (C: CoordinateType) => {
+  open Positioning;
+
   type coordinate = C.t;
 
   type pair = (coordinate, coordinate);
@@ -30,7 +28,7 @@ module Make = (C: CoordinateType) => {
     | SmoothQuadratic(NE.t(pair))
     | Arc(NE.t(arc));
 
-  type command = (positioning, action);
+  type command = (Positioning.t, action);
 
   type final = {
     closed: bool,
@@ -67,7 +65,7 @@ module Make = (C: CoordinateType) => {
     | SmoothQuadratic(_) => "t"
     | Arc(_) => "a";
 
-  let string_of_action = (positioning: positioning, action: action): string =>
+  let string_of_action = (positioning: Positioning.t, action: action): string =>
     switch (positioning) {
     | Absolute => action |> string_of_absolute_action
     | Relative => action |> string_of_relative_action
@@ -145,7 +143,7 @@ module Make = (C: CoordinateType) => {
 
   let move =
       (
-        ~positioning: positioning=Absolute,
+        ~positioning: Positioning.t=Absolute,
         ~tail: list(pair)=[],
         p: pair,
         {initial, inner, closed}: t,
@@ -168,7 +166,7 @@ module Make = (C: CoordinateType) => {
 
   let line =
       (
-        ~positioning: positioning=Absolute,
+        ~positioning: Positioning.t=Absolute,
         ~tail: list(pair)=[],
         p: pair,
         {initial, inner, closed}: t,
@@ -194,7 +192,7 @@ module Make = (C: CoordinateType) => {
 
   let horizontal =
       (
-        ~positioning: positioning=Absolute,
+        ~positioning: Positioning.t=Absolute,
         ~tail: list(coordinate)=[],
         c: coordinate,
         {initial, inner, closed}: t,
@@ -214,7 +212,7 @@ module Make = (C: CoordinateType) => {
 
   let vertical =
       (
-        ~positioning: positioning=Absolute,
+        ~positioning: Positioning.t=Absolute,
         ~tail: list(coordinate)=[],
         c: coordinate,
         {initial, inner, closed}: t,
@@ -234,7 +232,7 @@ module Make = (C: CoordinateType) => {
 
   let cubic =
       (
-        ~positioning: positioning=Absolute,
+        ~positioning: Positioning.t=Absolute,
         ~tail: list(cubic)=[],
         args: cubic,
         {initial, inner, closed}: t,
@@ -254,7 +252,7 @@ module Make = (C: CoordinateType) => {
 
   let smooth_cubic =
       (
-        ~positioning: positioning=Absolute,
+        ~positioning: Positioning.t=Absolute,
         ~tail: list(smooth_cubic)=[],
         args: smooth_cubic,
         {initial, inner, closed}: t,
@@ -274,7 +272,7 @@ module Make = (C: CoordinateType) => {
 
   let quadratic =
       (
-        ~positioning: positioning=Absolute,
+        ~positioning: Positioning.t=Absolute,
         ~tail: list(quadratic)=[],
         args: quadratic,
         {initial, inner, closed}: t,
@@ -294,7 +292,7 @@ module Make = (C: CoordinateType) => {
 
   let smooth_quadratic =
       (
-        ~positioning: positioning=Absolute,
+        ~positioning: Positioning.t=Absolute,
         ~tail: list(pair)=[],
         p: pair,
         {initial, inner, closed}: t,
@@ -314,7 +312,7 @@ module Make = (C: CoordinateType) => {
 
   let arc =
       (
-        ~positioning: positioning=Absolute,
+        ~positioning: Positioning.t=Absolute,
         ~tail: list(arc)=[],
         args: arc,
         {initial, inner, closed}: t,
