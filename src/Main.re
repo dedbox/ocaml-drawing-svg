@@ -141,7 +141,7 @@ let path_api_drawing =
     |> html_of_t
   );
 
-let paths_drawing = {
+let paths_drawing =
   Drawing.(
     [
       IntPath.([(50, 100), (150, 200), (50, 150)] |> of_pairs |> draw),
@@ -151,9 +151,26 @@ let paths_drawing = {
     ]
     |> html_of_list
   );
-};
 
-let quadratic_drawing = {
+let tri =
+  IntPath.(
+    [
+      (70, 290),
+      (150, 150),
+      (200, 250),
+      (40, 250),
+      (100, 150),
+      (170, 290),
+    ]
+    |> of_pairs
+    |> draw
+  );
+
+let tri_union_drawing = tri |> Drawing.html_of_t;
+
+let tri_evenodd_drawing = tri |> fill_rule(`Evenodd) |> Drawing.html_of_t;
+
+let quadratic_drawing =
   Drawing.(
     [
       IntPath.(
@@ -167,11 +184,10 @@ let quadratic_drawing = {
     ]
     |> html_of_list
   );
-};
 
 let _: Start.Handle.t(_) =
   Start.start_standalone(
     ~initial_input=(),
     ~bind_to_element_with_id="container",
-    Bonsai.const(quadratic_drawing),
+    Bonsai.const(tri_evenodd_drawing),
   );

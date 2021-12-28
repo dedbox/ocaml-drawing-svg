@@ -49,5 +49,20 @@ let fill: t(Color.t, [> | `Fill], 'b, 'c) =
 let stroke: t(Color.t, [> | `Stroke], 'b, 'c) =
   (color, elt) => attribute(a_stroke, color, elt);
 
+// type fill_rule_attr = [ | `NonZero | `EvenOdd];
+
+// let fill_rule_names: fill_rule_attr => string =
+//   fun
+//   | `NonZero => "nonzero"
+//   | `EvenOdd => "evenodd";
+
+// let a_fill_rule: fill_rule_attr => attrib([> | `Fill_rule]) =
+//   rule =>
+//     to_attrib(
+//       Xml.string_attrib("fill-rule", Xml.W.fmap(fill_rule_names, rule)),
+//     );
+
 let d: t(string, [> | `D], 'b, 'c) =
   (spec, elt) => attribute(a_d, spec, elt);
+let fill_rule: t(Svg_types.fill_rule, [> | `Fill_rule], 'b, 'c) =
+  (rule, elt) => attribute(a_fill_rule, rule, elt);
